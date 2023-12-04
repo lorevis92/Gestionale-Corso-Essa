@@ -1,5 +1,7 @@
 package gesmag.progetto.entities;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,5 +29,6 @@ public class Prodotto {
     private int quantita_venduta;
     private int quantita_da_acquistare;
 
+	private List<Long> movimenti;
 }
     

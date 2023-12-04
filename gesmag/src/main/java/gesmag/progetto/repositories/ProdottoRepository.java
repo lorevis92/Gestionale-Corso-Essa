@@ -11,7 +11,9 @@ import gesmag.progetto.entities.Prodotto;
 @Repository
 public interface ProdottoRepository extends JpaRepository<Prodotto, Long> {
 
-	public Prodotto findByCodice(long id);
+	public Prodotto findById(long id);
+
+	public Prodotto findByCodice(String codice);
 
 	public List<Prodotto> findAll();
 }

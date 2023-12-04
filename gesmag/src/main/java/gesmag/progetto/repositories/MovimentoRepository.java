@@ -9,9 +9,8 @@ import gesmag.progetto.entities.Movimento;
 
 @Repository
 public interface MovimentoRepository extends JpaRepository<Movimento, Long> {
-	public Movimento findByCodice_movimento(String codice_movimento);
+	public Movimento findByCodiceMovimento(String codiceMovimento);
 
 	public List<Movimento> findAll();
 
-	public List<Movimento> findByNome_cliente(String nome_cliente);
 }

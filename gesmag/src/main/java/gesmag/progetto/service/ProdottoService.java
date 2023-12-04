@@ -1,23 +1,39 @@
 package gesmag.progetto.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import gesmag.progetto.entities.Prodotto;
 import gesmag.progetto.repositories.ProdottoRepository;
-import jakarta.transaction.Transactional;
 
 @Service
-@Transactional
 public class ProdottoService {
 
+	private final ProdottoRepository prodottoRepository;
+
 	@Autowired
-	private ProdottoRepository prodottoRepository;
-	
-	public Prodotto creaProdotto(String codice, String descrizione,String um, double prezzo, double prezzo_acquisto, int quantita_in_giacenza, int quantita_venduta, int quantita_da_acquistare) {
-		Prodotto nuovo_prodotto = new Prodotto(null, codice, descrizione, um, prezzo, prezzo_acquisto,
-				quantita_in_giacenza, quantita_venduta, quantita_da_acquistare);
-		return prodottoRepository.save(nuovo_prodotto);		
+	public ProdottoService(ProdottoRepository prodottoRepository) {
+		this.prodottoRepository = prodottoRepository;
+	}
+
+	public Prodotto saveProdotto(Prodotto prodotto) {
+		return prodottoRepository.save(prodotto);
+	}
+
+	public List<Prodotto> getAllProdotti() {
+		return prodottoRepository.findAll();
+	}
+
+	public Optional<Prodotto> getProdottoById(Long id) {
+		return prodottoRepository.findById(id);
+	}
+
+	public Optional<Prodotto> getProdottoByCodice(String codice) {
+		return Optional.of(prodottoRepository.findByCodice(codice));
 	}
 
 }
+
