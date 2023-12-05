@@ -32,7 +32,7 @@ public class ProdottoService {
 	}
 
 	public Optional<Prodotto> getProdottoByCodice(String codice) {
-		return Optional.of(prodottoRepository.findByCodice(codice));
+		return Optional.of(prodottoRepository.findByCodiceProdotto(codice));
 	}
 
 }

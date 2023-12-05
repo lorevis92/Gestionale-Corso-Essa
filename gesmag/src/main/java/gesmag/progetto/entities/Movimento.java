@@ -20,16 +20,16 @@ public class Movimento {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String codiceMovimento;
-	private String data_ora_movimento;
-	private String nome_cliente;
+	private String data;
+	private String nomeCliente;
 	@ManyToOne
 	@JoinColumn(name = "prodotto_id")
 	private Prodotto prodotto;
 	private double prezzo;
-	private int quantita_movimentata;
+	private int quantitaMovimentata;
 
 	public double getTotale() {
-		return (this.prezzo * this.quantita_movimentata);
+		return (this.prezzo * this.quantitaMovimentata);
 	}
 
 }

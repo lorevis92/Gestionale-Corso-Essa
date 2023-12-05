@@ -13,7 +13,7 @@ public interface ProdottoRepository extends JpaRepository<Prodotto, Long> {
 
 	public Prodotto findById(long id);
 
-	public Prodotto findByCodice(String codice);
+	public Prodotto findByCodiceProdotto(String codice);
 
 	public List<Prodotto> findAll();
 }

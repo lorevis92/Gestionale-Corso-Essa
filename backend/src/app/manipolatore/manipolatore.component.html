@@ -1,0 +1,25 @@
+<div>
+    <table>
+      <thead>
+        <tr>
+          <th>Codice</th>
+          <th>Descrizione</th>
+          <th>UM</th>
+          <th>Giacenza</th>
+          <th>Acquistata</th>
+          <th>Venduta</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let element of listaGiacenze">
+          <td>{{ element.codice }}</td>
+          <td>{{ element.descrizione }}</td>
+          <td>{{ element.um }}</td>
+          <td>{{ element.giacenza }}</td>
+          <td>{{ element.acquistata }}</td>
+          <td>{{ element.venduta }}</td>
+        </tr>
+       
+      </tbody>
+    </table>
+  </div>

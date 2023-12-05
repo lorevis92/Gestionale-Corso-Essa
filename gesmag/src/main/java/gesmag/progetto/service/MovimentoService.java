@@ -1,14 +1,15 @@
 package gesmag.progetto.service;
 
 
-import gesmag.progetto.entities.Movimento;
-import gesmag.progetto.entities.Prodotto;
-import gesmag.progetto.repositories.MovimentoRepository;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import gesmag.progetto.entities.Movimento;
+import gesmag.progetto.entities.Prodotto;
+import gesmag.progetto.repositories.MovimentoRepository;
 
 @Service
 public class MovimentoService {
@@ -23,7 +24,6 @@ public class MovimentoService {
     }
 
     public Movimento saveMovimento(Movimento movimento) {
-        // Aggiorna la quantità in giacenza del prodotto in base al tipo di movimento
         updateQuantities(movimento);
         return movimentoRepository.save(movimento);
     }
@@ -37,16 +37,30 @@ public class MovimentoService {
     }
 
     private void updateQuantities(Movimento movimento) {
-        Prodotto prodotto = movimento.getProdotto();
-        int quantitaMovimentata = movimento.getQuantita_movimentata();
+        System.out.println("Prodotto: " + movimento.getProdotto());
+        System.out.println("id prodotto = " + movimento.getProdotto().getId());
 
-        if ("A".equals(movimento.getCodiceMovimento())) { // Acquisto
-            prodotto.setQuantita_in_giacenza(prodotto.getQuantita_in_giacenza() + quantitaMovimentata);
-            prodottoService.saveProdotto(prodotto);
-        } else if ("V".equals(movimento.getCodiceMovimento())) { // Vendita
-            prodotto.setQuantita_venduta(prodotto.getQuantita_venduta() + quantitaMovimentata);
-            prodotto.setQuantita_in_giacenza(prodotto.getQuantita_in_giacenza() - quantitaMovimentata);
-            prodottoService.saveProdotto(prodotto);
+        Optional<Prodotto> optionalProdotto = this.prodottoService.getProdottoById(movimento.getProdotto().getId());
+
+        if (optionalProdotto.isPresent()) {
+            Prodotto prodotto = optionalProdotto.get();
+            int quantitaMovimentata = movimento.getQuantitaMovimentata();
+            int quantitaMagazzino = prodotto.getQuantitaMagazzino();
+
+            if ("A".equals(movimento.getCodiceMovimento())) {
+                int quantitaAcquistata = prodotto.getQuantitaAcquistata();
+                prodotto.setQuantitaAcquistata(quantitaAcquistata + quantitaMovimentata);
+                prodotto.setQuantitaMagazzino(quantitaMagazzino + quantitaMovimentata);
+                prodottoService.saveProdotto(prodotto);
+            } else if ("V".equals(movimento.getCodiceMovimento())) {
+                int quantitaVenduta = prodotto.getQuantitaVenduta();
+                prodotto.setQuantitaVenduta(quantitaVenduta + quantitaMovimentata);
+                prodotto.setQuantitaMagazzino(quantitaMagazzino - quantitaMovimentata);
+                prodottoService.saveProdotto(prodotto);
+            }
+        } else {
+            System.out.println("Prodotto non trovato con ID: " + movimento.getProdotto().getId());
         }
     }
+
 }
